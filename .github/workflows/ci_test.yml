@@ -1,0 +1,27 @@
+name: Testing
+on:
+  push:
+    paths-ignore:
+      - '**/*.md'
+      - '.all-contributorsrc'
+
+jobs:
+  test:
+    runs-on: windows-latest
+    name: Run JUnit Tests
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          architecture: x64
+      - name: Run JUnit Tests
+        run: |
+          echo "Running JUnit tests..."
+          # Set up classpath for JUnit and test location
+          export CLASSPATH="./core/library-test/junit-4.13.2.jar:.processing4/java/test/processing/mode/java"
+          # Run the tests
+          java org.junit.runner.JUnitCore processing.mode.java.AutoFormatTests
