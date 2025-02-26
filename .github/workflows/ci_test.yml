@@ -22,6 +22,6 @@ jobs:
         run: |
           echo "Running JUnit tests..."
           # Set up classpath for JUnit and test location
-          export CLASSPATH="./core/library-test/junit-4.13.2.jar:.processing4/java/test/processing/mode/java"
+          set CLASSPATH="./core/library-test/junit-4.13.2.jar:.processing4/java/test/processing/mode/java"
           # Run the tests
           java org.junit.runner.JUnitCore processing.mode.java.AutoFormatTests
