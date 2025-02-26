@@ -1,0 +1,61 @@
+name: Testing
+on:
+  push:
+    paths-ignore:
+      - '**/*.md'
+      - '.all-contributorsrc'
+
+jobs:
+  test:
+    runs-on: windows-latest  # only run on windows
+    name: Run Tests
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          architecture: x64
+      - name: Build and Test
+        run: >
+          cd build;
+          ant -noinput build test;
+
+  build:
+    name: Create Pre-release for Windows (${{ matrix.arch }})
+    needs: test
+    runs-on: windows-latest  # 僅在 Windows 平台上運行
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            os_prefix: windows
+            arch: x64
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Checkout Examples Repository
+        uses: actions/checkout@v4
+        with:
+          repository: processing/processing-examples
+          path: processing-examples
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          architecture: ${{ matrix.arch }}
+      - name: Setup Ant
+        uses: cedx/setup-ant@v3
+      - name: Build Release
+        run: ant -noinput -buildfile build/build.xml ${{ matrix.os_prefix }}-dist -Dversion="${{ github.sha }}"
+      - name: Add artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: processing-${{github.sha}}-${{ matrix.os_prefix }}-${{ matrix.arch }}
+          path: ./build/${{ matrix.os_prefix }}/processing-${{github.sha}}-${{ matrix.os_prefix}}-*
+          retention-days: 1
