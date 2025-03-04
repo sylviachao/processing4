@@ -10511,6 +10511,22 @@ public class PApplet implements PConstants {
   // public functions for processing.core
 
 
+  public boolean isAsyncImageSaverDisposed() {
+    return g.isAsyncImageSaverDisposed();
+  }
+
+
+  public void beginDrawTestable() {
+    if (recorder != null) recorder.beginDrawTestable();
+    g.beginDrawTestable();
+  }
+
+
+  public boolean isDrawingStarted() {
+    return g.isDrawingStarted();
+  }
+
+
   public PGL beginPGL() {
     return g.beginPGL();
   }

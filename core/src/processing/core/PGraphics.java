@@ -788,7 +788,13 @@ public class PGraphics extends PImage implements PConstants {
     if (primaryGraphics && asyncImageSaver != null) {
       asyncImageSaver.dispose();
       asyncImageSaver = null;
+      asyncImageSaverDisposed = true;
+
     }
+  }
+  // New getter for testing purposes
+  public boolean isAsyncImageSaverDisposed() {
+    return asyncImageSaverDisposed;
   }
 
 
@@ -861,6 +867,8 @@ public class PGraphics extends PImage implements PConstants {
 //  }
 
 
+
+
   /**
    *
    * Sets the default properties for a <b>PGraphics</b> object. It should be called
@@ -873,9 +881,22 @@ public class PGraphics extends PImage implements PConstants {
    * @webref pgraphics:method
    * @webBrief Sets the default properties for a <b>PGraphics</b> object
    */
+  private boolean drawingStarted;
+  private boolean asyncImageSaverDisposed = false;
+
+
   public void beginDraw() {  // ignore
+
+  }
+  public void beginDrawTestable() {
+    this.drawingStarted = true;
+    // Logging to simulate tracking
+    System.out.println("Drawing has started.");
   }
 
+  public boolean isDrawingStarted() {
+    return drawingStarted;
+  }
 
   /**
    *
@@ -891,6 +912,8 @@ public class PGraphics extends PImage implements PConstants {
    * @brief Finalizes the rendering of a PGraphics object
    */
   public void endDraw() {  // ignore
+    this.drawingStarted = false;
+
   }
 
 
