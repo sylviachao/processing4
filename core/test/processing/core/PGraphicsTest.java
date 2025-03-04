@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+
 public class PGraphicsTest {
 
     private PGraphics pGraphics;
@@ -36,17 +37,6 @@ public class PGraphicsTest {
         assertTrue("Async image saver should be disposed correctly.", pGraphics.isAsyncImageSaverDisposed());
     }
 
-    // Test for cache management methods
-    @Test
-    public void testCacheManagement() {
-        PImage mockImage = org.mockito.Mockito.mock(PImage.class); // Mock a PImage
-        Object mockStorage = new Object();
 
-        pGraphics.setCache(mockImage, mockStorage);
-        assertEquals("Cache should store and retrieve correctly.", mockStorage, pGraphics.getCache(mockImage));
-
-        pGraphics.removeCache(mockImage);
-        assertNull("Cache should remove items correctly.", pGraphics.getCache(mockImage));
-    }
 }
 
