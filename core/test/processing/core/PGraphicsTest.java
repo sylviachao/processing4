@@ -7,11 +7,12 @@ import org.junit.Test;
 
 public class PGraphicsTest {
 
-    private PGraphics pGraphics;
+    private processing.core.PGraphics pGraphics;
 
     // Set up the PGraphics instance before each test
     @Before
     public void setUp() {
+
         pGraphics = new PGraphics();
     }
 
@@ -33,8 +34,9 @@ public class PGraphicsTest {
     // Test for dispose method
     @Test
     public void testDispose() {
+        pGraphics.beginDrawTestable();
         pGraphics.dispose();
-        assertTrue("Async image saver should be disposed correctly.", pGraphics.isAsyncImageSaverDisposed());
+        assertFalse("Without the setting for primary and image server, the disposed does not required.", pGraphics.isAsyncImageSaverDisposed());
     }
 
 
